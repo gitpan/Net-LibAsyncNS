@@ -1,5 +1,5 @@
 NAME
-    "Net::LibAsyncNS" - a Perl wrapper around libasyncns
+    `Net::LibAsyncNS' - a Perl wrapper around libasyncns
 
 SYNOPSIS
      use Net::LibAsyncNS;
@@ -26,7 +26,7 @@ SYNOPSIS
      }
 
 DESCRIPTION
-    The name resolver functions "getaddrinfo" and "getnameinfo" as provided
+    The name resolver functions `getaddrinfo' and `getnameinfo' as provided
     by most C libraries are blocking functions; they will perform their work
     and return an answer when it is ready. This makes it hard to use these
     name resolvers in asynchronous or non-blocking code.
@@ -42,33 +42,33 @@ DESCRIPTION
 
 CONSTRUCTOR
   $asyncns = Net::LibAsyncNS->new( $n_proc )
-    Construct a new "Net::LibAsyncNS" object. It will be initialised with
-    $n_proc processes or threads to handle nameserver lookups.
+    Construct a new `Net::LibAsyncNS' object. It will be initialised with
+    `$n_proc' processes or threads to handle nameserver lookups.
 
 METHODS
   $fd = $asyncns->fd
     Returns a file descriptor number to poll for readability on.
 
   $handle = $asyncns->new_handle_for_fd
-    Returns a new "IO::Handle" object wrapping the underlying file
+    Returns a new `IO::Handle' object wrapping the underlying file
     descriptor. Note that the handle is *not* cached; a new object is
     created each time this method is called. For well-behaved results, this
     should only be called once.
 
   $success = $asyncns->wait( $block )
-    Wait for more queries to be ready. If $block is true, this method will
+    Wait for more queries to be ready. If `$block' is true, this method will
     block until at least one query is ready, if false it will process any
     pending IO without blocking. It returns true if the operation was
-    successful or false if an IO error happened; $! will be set in this
+    successful or false if an IO error happened; `$!' will be set in this
     case.
 
   $n = $asyncns->getnqueries
     Return the number of outstanding queries.
 
   $q = $asyncns->getaddrinfo( $host, $service, $hints )
-    Starts an asynchronous "getaddrinfo" resolution on the given $host and
-    $service names. If provided, $hints should be a HASH reference where the
-    following keys are recognised:
+    Starts an asynchronous `getaddrinfo' resolution on the given `$host' and
+    `$service' names. If provided, `$hints' should be a HASH reference where
+    the following keys are recognised:
 
     flags => INT
     family => INT
@@ -76,65 +76,65 @@ METHODS
     protocol => INT
 
   ( $err, @res ) = $asyncns->getaddrinfo_done( $q )
-    Finishes a "getaddrinfo" resolution, returning an error code, and a list
+    Finishes a `getaddrinfo' resolution, returning an error code, and a list
     of results. Each result will be a HASH reference containing the
     following keys:
 
     family => INT
     socktype => INT
     protocol => INT
-            Socket type values to pass to "socket"
+            Socket type values to pass to `socket'
 
     addr => STRING
-            Address to pass to "connect"
+            Address to pass to `connect'
 
     canonname => STRING
             If requested, the canonical hostname for this address
 
   $q = $asyncns->getnameinfo( $addr, $flags, $wanthost, $wantserv )
-    Starts an asynchronous "getnameinfo" resolution on the given address.
-    The $wanthost and $wantserv booleans indicate if the hostname or service
-    name are required.
+    Starts an asynchronous `getnameinfo' resolution on the given address.
+    The `$wanthost' and `$wantserv' booleans indicate if the hostname or
+    service name are required.
 
   ( $err, $host, $service ) = $asyncns->getnameinfo_done( $q )
-    Finishes a "getnameinfo" resolution, returning an error code, the
+    Finishes a `getnameinfo' resolution, returning an error code, the
     hostname and service name, if requested.
 
   $q = $asyncns->res_query( $dname, $class, $type )
   $q = $asyncns->res_search( $dname, $class, $type )
-    Starts an asynchronous "res_query" or "res_search" resolution on the
+    Starts an asynchronous `res_query' or `res_search' resolution on the
     given domain name, class and type.
 
   $answer = $asyncns->res_done( $q )
-    Finishes a "res_query" or "res_search" resolution, returning the answer
-    in a packed string, or "undef" if it fails. If it fails $! will contain
-    the error details.
+    Finishes a `res_query' or `res_search' resolution, returning the answer
+    in a packed string, or `undef' if it fails. If it fails `$!' will
+    contain the error details.
 
   $done = $asyncns->isdone( $q )
     Returns true if the given query is ready.
 
   $q = $asyncns->getnext
-    Returns the next query object that is completed, or "undef" if none are
-    ready yet. This will only yet be valid after calling the "wait" method
+    Returns the next query object that is completed, or `undef' if none are
+    ready yet. This will only yet be valid after calling the `wait' method
     at least once.
 
   $asyncns->cancel( $q )
     Cancels a currently outstanding query. After this is called, the query
-    in $q should not be further accessed, as memory associated with it will
-    have been reclaimed.
+    in `$q' should not be further accessed, as memory associated with it
+    will have been reclaimed.
 
   $asyncns->setuserdata( $q, $data )
     Stores an arbitrary Perl scalar with the query. It can later be
-    retrieved using "getuserdata".
+    retrieved using `getuserdata'.
 
   $data = $asyncns->getuserdata( $q )
-    Returns the Perl scalar previously stored with the query, or "undef" if
+    Returns the Perl scalar previously stored with the query, or `undef' if
     no value has yet been set.
 
 CONSTANTS
     The following constants are provided by Net::LibAsyncNS::Constants.
 
-    Flags for "getaddrinfo":
+    Flags for `getaddrinfo':
 
      AI_PASSIVE
      AI_CANONNAME
@@ -154,7 +154,7 @@ CONSTANTS
      EAI_ADDRFAMILY
      EAI_MEMORY
 
-    Flags for "getnameinfo":
+    Flags for `getnameinfo':
 
      NI_NUMERICHOST
      NI_NUMERICSERV
@@ -163,23 +163,23 @@ CONSTANTS
 
 QUERY OBJECTS
     The following methods are available on query objects, returned by
-    "getaddrinfo" and "getnameinfo".
+    `getaddrinfo' and `getnameinfo'.
 
   $asyncns = $query->asyncns
-    Returns the underlying "Net::LibAsyncNS" object backing the query
+    Returns the underlying `Net::LibAsyncNS' object backing the query
 
   $done = $query->isdone
   $query->setuserdata( $data )
   $data = $query->getuserdata
-    Shortcuts to the equivalent method on the underlying "Net::LibAsyncNS"
+    Shortcuts to the equivalent method on the underlying `Net::LibAsyncNS'
     object
 
 EXAMPLES
   Multiple Queries
     The SYNOPSIS example only has one outstanding query. To wait for
-    multiple queries to complete, the "getnext" method can be used.
+    multiple queries to complete, the `getnext' method can be used.
     Per-query context data can be stored in the query itself by using the
-    "setuserdata" and "getuserdata" accessors.
+    `setuserdata' and `getuserdata' accessors.
 
      use Net::LibAsyncNS;
      use Socket qw( SOCK_RAW );
@@ -210,19 +210,19 @@ EXAMPLES
         }
      }
 
-    In this example, the per-query data stored by "setuserdata" is just the
+    In this example, the per-query data stored by `setuserdata' is just the
     hostname, but any Perl scalar may be stored, such as a HASH ref
     containing many keys, or CODE ref to a callback function of some kind.
 
   Non-blocking IO
     The examples above wait synchronously for the query/queries to complete,
-    in the "wait" method. However, most of the point of this library is to
+    in the `wait' method. However, most of the point of this library is to
     allow asynchronous resolver calls to mix with other asynchronous and
     non-blocking code. This is achieved by the containing program waiting
-    for a filehandle to become readable, and to call "$asyncns->wait( 0 )"
+    for a filehandle to become readable, and to call `$asyncns->wait( 0 )'
     when it is.
 
-    The following example shows integration with a simple "IO::Poll"-based
+    The following example shows integration with a simple `IO::Poll'-based
     program.
 
      use IO::Poll;
@@ -261,6 +261,12 @@ EXAMPLES
            }
         }
      }
+
+SEE ALSO
+    *   http://0pointer.de/lennart/projects/libasyncns is a C library for
+        Linux/Unix for executing name service queries asynchronously. It is
+        an asynchronous wrapper around getaddrinfo(3), getnameinfo(3),
+        res_query(3) and res_search(3) from libc and libresolv.
 
 AUTHOR
     Paul Evans <leonerd@leonerd.org.uk>

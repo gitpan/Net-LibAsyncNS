@@ -38,7 +38,9 @@ is_refcount( $asyncns, 2, '$asyncns still has refcount 2 after ->getaddrinfo_don
 
 is( $err+0, 0, 'No $err from ->getaddrinfo_done' );
 
-is( scalar @res, 1, '@res contains 1 result' );
+# Some libcs mistakenly give two identical results for "localhost"/AF_INET if
+# the /etc/hosts file contains both an IPv4 and an IPv6 address.
+cmp_ok( scalar @res, '>=', 1, '@res contains 1 result' );
 
 is( $res[0]->{family},   AF_INET,     '$res[0]->{family} is AF_INET' );
 is( $res[0]->{socktype}, SOCK_STREAM, '$res[0]->{socktype} is SOCK_STREAM' );

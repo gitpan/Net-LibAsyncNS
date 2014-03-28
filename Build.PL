@@ -17,8 +17,8 @@ my $libs   = ExtUtils::PkgConfig->libs("libasyncns");
 
 eval { require ExtUtils::CChecker; 1 } or
    die "OS unsupported - missing ExtUtils::CChecker";
-eval { ExtUtils::CChecker->VERSION( 0.04 ) } or
-   die "OS unsupported - ExtUtils::CChecker too old; need at least 0.04";
+eval { ExtUtils::CChecker->VERSION( 0.05 ) } or
+   die "OS unsupported - ExtUtils::CChecker too old; need at least 0.05";
 
 my $cc = ExtUtils::CChecker->new();
 
@@ -46,10 +46,11 @@ my $build = $cc->new_module_build(
    extra_compiler_flags => [ split( m/ /, $cflags ) ],
    extra_linker_flags   => [ split( m/ /, $libs ) ],
    configure_requires => {
-      'ExtUtils::CChecker' => '0.04',
+      'ExtUtils::CChecker' => '0.05',
       'ExtUtils::PkgConfig' => 0,
    },
    requires => {
+      'Exporter' => '5.57',
    },
    build_requires => {
       'ExtUtils::PkgConfig' => 0,
@@ -59,6 +60,7 @@ my $build = $cc->new_module_build(
       'Test::Identity' => 0,
       'Test::Refcount' => 0,
    },
+   auto_configure_requires => 0, # Don't add M::B to configure_requires
    license => 'perl',
    create_makefile_pl => 'small',
    create_license => 1,

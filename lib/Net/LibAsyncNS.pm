@@ -1,14 +1,14 @@
 #  You may distribute under the terms of either the GNU General Public License
 #  or the Artistic License (the same terms as Perl itself)
 #
-#  (C) Paul Evans, 2010 -- leonerd@leonerd.org.uk
+#  (C) Paul Evans, 2010-2014 -- leonerd@leonerd.org.uk
 
 package Net::LibAsyncNS;
 
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 require XSLoader;
 XSLoader::load( __PACKAGE__, $VERSION );
@@ -74,7 +74,7 @@ C<$n_proc> processes or threads to handle nameserver lookups.
 
 =cut
 
-# The following documents the various XS-implemented methods in TermKey.xs in
+# The following documents the various XS-implemented methods in LibAsyncNS.xs in
 # the same order
 
 =head2 $fd = $asyncns->fd
@@ -296,11 +296,6 @@ sub Net::LibAsyncNS::Query::getuserdata
    $q->asyncns->getuserdata( $q );
 }
 
-# Keep perl happy; keep Britain tidy
-1;
-
-__END__
-
 =head1 EXAMPLES
 
 =head2 Multiple Queries
@@ -391,6 +386,25 @@ program.
     }
  }
 
+=head1 SEE ALSO
+
+=over 4
+
+=item *
+
+L<http://0pointer.de/lennart/projects/libasyncns> is a C library for
+Linux/Unix for executing name service queries asynchronously. It is an
+asynchronous wrapper around getaddrinfo(3), getnameinfo(3), res_query(3) and
+res_search(3) from libc and libresolv.
+
+=back
+
+=cut
+
 =head1 AUTHOR
 
 Paul Evans <leonerd@leonerd.org.uk>
+
+=cut
+
+0x55AA;
